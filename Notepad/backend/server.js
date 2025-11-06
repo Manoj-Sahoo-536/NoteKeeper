@@ -15,9 +15,11 @@ app.get('/', (req, res) => res.send('Notes API is running'));
 app.use('/api/auth', authRoutes);
 app.use('/api/notes', authMiddleware, notesRoutes);
 
+const PORT = process.env.PORT || 5000;
+
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB');
-    app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`));
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch(err => console.error('MongoDB connection error:', err));

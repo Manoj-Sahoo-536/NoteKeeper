@@ -1,4 +1,11 @@
 {
+  "name": "notekeeper",
+  "version": "1.0.0",
+  "description": "A MERN stack note-taking application",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Manoj-Sahoo-536/NoteKeeper.git"
+  },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "jsonwebtoken": "^9.0.2"

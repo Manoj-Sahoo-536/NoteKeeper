@@ -50,22 +50,33 @@
    - Select your notes app repo
    - Configure:
      - **Name**: `notes-backend` (or your choice)
-     - **Root Directory**: `backend`
+     - **Root Directory**: Leave BLANK or set to `Notepad/backend` (depending on your repo structure)
+       - If your GitHub repo root contains the `backend` folder directly, leave it BLANK
+       - If your repo has a parent folder (like `Notepad`), set it to the full path
      - **Environment**: `Node`
-     - **Build Command**: `npm install`
-     - **Start Command**: `npm start`
+     - **Build Command**: `cd backend && npm install`
+     - **Start Command**: `cd backend && node server.js`
      - **Plan**: FREE
 
 4. **Add Environment Variables**:
-   Click "Advanced" → Add:
-   ```
-   PORT=5000
-   MONGODB_URI=your_mongodb_atlas_connection_string
-   JWT_SECRET=your_random_secret_key_min_32_chars
-   ```
+   - Scroll down and click "Advanced" button
+   - In the "Environment Variables" section, click "Add Environment Variable"
+   - Add these three variables one by one:
    
-   Generate JWT_SECRET: Use any random string (32+ characters)
-   Example: `my-super-secret-jwt-key-2024-notes-app-xyz123`
+   **Variable 1:**
+   - Key: `PORT`
+   - Value: `5000`
+   
+   **Variable 2:**
+   - Key: `MONGODB_URI`
+   - Value: Your MongoDB Atlas connection string from Step 1
+   - Example: `mongodb+srv://notesapp:yourpassword@cluster0.xxxxx.mongodb.net/noteskeeper?retryWrites=true&w=majority`
+   
+   **Variable 3:**
+   - Key: `JWT_SECRET`
+   - Value: Any random string (minimum 32 characters)
+   - Example: `my-super-secret-jwt-key-2024-notes-app-xyz123`
+   - You can generate one at: https://randomkeygen.com/
 
 5. Click "Create Web Service"
 
@@ -121,6 +132,38 @@
 - **Vercel**: Unlimited bandwidth for personal projects
 
 ### Troubleshooting:
+
+**Render Deployment Failed?**
+
+1. **Build Failed / "Cannot find module" Error:**
+   - **CRITICAL**: Check your Root Directory setting:
+     - Go to Render Dashboard → Settings → Build & Deploy
+     - If error shows `/opt/render/project/src/server.js` not found:
+       - Set Root Directory to BLANK (empty)
+       - Set Build Command to: `cd backend && npm install`
+       - Set Start Command to: `cd backend && node server.js`
+     - Click "Save Changes" and manually redeploy
+   - Verify package.json is in the backend folder
+   - Check Render logs for missing dependencies
+
+2. **Deploy Failed / Won't Start:**
+   - Verify `Start Command` is `node server.js`
+   - Check all 3 environment variables are set correctly:
+     - PORT=5000
+     - MONGODB_URI (no spaces, correct password)
+     - JWT_SECRET (minimum 32 characters)
+   - Go to Render Dashboard → Your Service → "Environment" tab to verify
+
+3. **MongoDB Connection Error:**
+   - Verify MongoDB Atlas connection string is correct
+   - Ensure password has no special characters or is URL-encoded
+   - Check MongoDB Network Access allows 0.0.0.0/0
+   - Test connection string format: `mongodb+srv://username:password@cluster.xxxxx.mongodb.net/dbname`
+
+4. **Service Running but Not Responding:**
+   - Wait 30-60 seconds (free tier cold start)
+   - Check Render logs for errors
+   - Visit: `https://your-service.onrender.com` (should show "Notes API is running")
 
 **Backend not responding?**
 - Check Render logs for errors
