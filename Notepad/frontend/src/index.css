@@ -232,24 +232,28 @@ button:hover::before {
   
   /* Content area */
   .content {
-    padding: 16px 12px !important;
+    padding: 16px 8px 80px 8px !important;
   }
   
   /* Filter bar */
   .filter-bar {
-    flex-direction: column !important;
-    gap: 12px !important;
+    flex-direction: row !important;
+    gap: 8px !important;
     padding: 12px !important;
+    flex-wrap: nowrap !important;
   }
   
   .filter-section {
-    width: 100% !important;
-    flex-wrap: wrap !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
   }
   
   .filter-label {
-    margin-bottom: 4px !important;
-    font-size: 12px !important;
+    font-size: 11px !important;
+    white-space: nowrap !important;
   }
   
   .filter-btn {
@@ -257,7 +261,20 @@ button:hover::before {
     font-size: 12px !important;
   }
   
-  /* Force date and sort to stay on same row */
+  /* Hide color buttons on mobile */
+  .color-filter-desktop {
+    display: none !important;
+  }
+  
+  /* Show color dropdown on mobile */
+  .color-filter-mobile {
+    display: block !important;
+    width: 100% !important;
+    padding: 8px 10px !important;
+    font-size: 12px !important;
+  }
+  
+  /* Keep all three filters in same row */
   .sort-section {
     flex: 1 !important;
     min-width: 0 !important;
@@ -267,7 +284,8 @@ button:hover::before {
   }
   
   .sort-section .filter-label {
-    width: auto !important;
+    font-size: 11px !important;
+    white-space: nowrap !important;
   }
   
   .sort-section select {
@@ -280,7 +298,7 @@ button:hover::before {
   .sort-container {
     display: flex !important;
     gap: 8px !important;
-    width: 100% !important;
+    flex: 2 !important;
     flex-wrap: nowrap !important;
   }
   
@@ -297,12 +315,50 @@ button:hover::before {
   
   /* Form */
   form {
-    padding: 20px !important;
+    padding: 16px !important;
+    margin: 0 4px !important;
   }
   
-  form input,
+  form input {
+    font-size: 14px !important;
+    padding: 12px 14px !important;
+    margin-bottom: 10px !important;
+  }
+  
   form textarea {
     font-size: 14px !important;
+    padding: 12px 14px !important;
+    min-height: 100px !important;
+  }
+  
+  form .color-picker {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    margin-top: 10px !important;
+  }
+  
+  form .color-options {
+    gap: 6px !important;
+  }
+  
+  form button[type="button"] {
+    width: 28px !important;
+    height: 28px !important;
+  }
+  
+  form .form-buttons {
+    margin-top: 12px !important;
+    gap: 8px !important;
+    flex-direction: column !important;
+  }
+  
+  form .form-buttons button {
+    width: 100% !important;
+    padding: 12px 28px !important;
+    font-size: 15px !important;
+    height: 48px !important;
+    box-sizing: border-box !important;
   }
 }
 
@@ -320,5 +376,37 @@ button:hover::before {
     width: 32px !important;
     height: 32px !important;
     font-size: 14px !important;
+  }
+}
+
+/* Footer responsive */
+@media (max-width: 768px) {
+  footer {
+    padding: 8px 12px !important;
+  }
+  
+  footer > div {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 6px !important;
+  }
+  
+  footer p {
+    font-size: 11px !important;
+    margin: 0 !important;
+  }
+  
+  footer a {
+    font-size: 11px !important;
+    gap: 4px !important;
+  }
+  
+  footer svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+  
+  footer .social-links {
+    gap: 12px !important;
   }
 }

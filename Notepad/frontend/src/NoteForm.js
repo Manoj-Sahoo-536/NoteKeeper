@@ -22,6 +22,10 @@ export default function NoteForm({ onSubmit, editNote, onCancel, theme }) {
       setTitle(editNote.title);
       setContent(editNote.content);
       setColor(editNote.color || 'default');
+    } else {
+      setTitle('');
+      setContent('');
+      setColor('default');
     }
   }, [editNote]);
 
@@ -67,9 +71,9 @@ export default function NoteForm({ onSubmit, editNote, onCancel, theme }) {
           ))}
         </div>
       </div>
-      <div style={styles.buttons}>
-        <button type="submit" style={styles.btn}>{editNote ? 'Update' : 'Add'}</button>
-        {editNote && <button type="button" onClick={onCancel} style={styles.btnCancel}>Cancel</button>}
+      <div style={styles.buttons} className="form-buttons">
+        <button type="submit" style={styles.btn} className="submit-btn">{editNote ? 'Update' : 'Add'}</button>
+        {editNote && <button type="button" onClick={() => { onCancel(); setTitle(''); setContent(''); setColor('default'); }} style={styles.btnCancel}>Cancel</button>}
       </div>
     </form>
   );

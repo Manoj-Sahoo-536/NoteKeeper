@@ -4,6 +4,7 @@ import NoteForm from './NoteForm';
 import NoteCard from './NoteCard';
 import ConfirmDialog from './ConfirmDialog';
 import Auth from './Auth';
+import Footer from './Footer';
 
 const colorFilters = [
   { name: 'all', label: 'All', color: '#667eea' },
@@ -237,8 +238,13 @@ export default function App() {
                 <>
                   <button onClick={() => { setSelectionMode(false); setSelectedNotes([]); }} className="icon-only-btn" style={styles.iconOnlyBtn} title="Cancel">❌</button>
                   <div style={styles.exportWrapper}>
-                    <button onClick={() => setShowExportMenu(!showExportMenu)} className="icon-only-btn" style={{...styles.iconOnlyBtn, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff'}} title="Export">
-                      📥 ({selectedNotes.length})
+                    <button onClick={() => setShowExportMenu(!showExportMenu)} className="icon-only-btn" style={{...styles.iconOnlyBtn, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff', width: 'auto', padding: '0 12px', gap: '6px'}} title="Export">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                      </svg>
+                      ({selectedNotes.length})
                     </button>
                     {showExportMenu && (
                       <div style={styles.exportMenu}>
@@ -249,7 +255,13 @@ export default function App() {
                   </div>
                 </>
               ) : (
-                <button onClick={() => setSelectionMode(true)} className="icon-only-btn" style={styles.iconOnlyBtn} title="Export Notes">📥</button>
+                <button onClick={() => setSelectionMode(true)} className="icon-only-btn" style={styles.iconOnlyBtn} title="Export Notes">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                </button>
               )}
               </div>
             </div>
@@ -268,20 +280,32 @@ export default function App() {
         <div className="filter-bar" style={styles.filterBar}>
           <div className="filter-section" style={styles.filterSection}>
             <span className="filter-label" style={styles.filterLabel}>Color:</span>
-            {colorFilters.map(f => (
-              <button
-                key={f.name}
-                onClick={() => setColorFilter(f.name)}
-                className="filter-btn"
-                style={{
-                  ...styles.filterBtn,
-                  background: colorFilter === f.name ? f.color : 'rgba(255,255,255,0.1)',
-                  color: colorFilter === f.name ? '#fff' : '#aaa'
-                }}
-              >
-                {f.label}
-              </button>
-            ))}
+            <div className="color-filter-desktop" style={styles.colorFilterDesktop}>
+              {colorFilters.map(f => (
+                <button
+                  key={f.name}
+                  onClick={() => setColorFilter(f.name)}
+                  className="filter-btn"
+                  style={{
+                    ...styles.filterBtn,
+                    background: colorFilter === f.name ? f.color : 'rgba(255,255,255,0.1)',
+                    color: colorFilter === f.name ? '#fff' : '#aaa'
+                  }}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+            <select 
+              value={colorFilter} 
+              onChange={(e) => setColorFilter(e.target.value)} 
+              style={styles.colorFilterMobile}
+              className="color-filter-mobile"
+            >
+              {colorFilters.map(f => (
+                <option key={f.name} value={f.name}>{f.label}</option>
+              ))}
+            </select>
           </div>
           <div className="sort-container" style={styles.sortContainer}>
             <div className="sort-section" style={styles.sortSection}>
@@ -317,7 +341,10 @@ export default function App() {
               <NoteCard
                 key={note._id}
                 note={note}
-                onEdit={setEditNote}
+                onEdit={(note) => {
+                  setEditNote(note);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
                 onDelete={handleDelete}
                 onPin={handlePin}
                 onArchive={handleArchive}
@@ -341,6 +368,7 @@ export default function App() {
         onCancel={() => setConfirmDialog({ isOpen: false, message: '', onConfirm: null })}
         theme={theme}
       />
+      <Footer theme={theme} />
     </div>
   );
 }
@@ -363,9 +391,11 @@ const getStyles = (theme) => ({
   actionBtns: { display: 'flex', gap: '8px', alignItems: 'center' },
   iconOnlyBtn: { width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)', color: theme === 'dark' ? '#fff' : '#000', border: 'none', borderRadius: '50%', cursor: 'pointer', fontSize: '16px', transition: 'all 0.2s ease' },
 
-  content: { position: 'relative', zIndex: 10, maxWidth: '1200px', margin: '0 auto', padding: '32px 24px' },
+  content: { position: 'relative', zIndex: 10, maxWidth: '1200px', margin: '0 auto', padding: '32px 24px 80px 24px' },
   filterBar: { display: 'flex', gap: '20px', flexWrap: 'wrap', marginTop: '20px', padding: '16px', background: theme === 'dark' ? 'rgba(30,30,45,0.6)' : 'rgba(255,255,255,0.8)', borderRadius: '12px', backdropFilter: 'blur(10px)', alignItems: 'center', border: theme === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)' },
   filterSection: { display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center', flex: 1 },
+  colorFilterDesktop: { display: 'flex', gap: '8px', flexWrap: 'wrap' },
+  colorFilterMobile: { display: 'none', padding: '8px 16px', background: theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)', color: theme === 'dark' ? '#fff' : '#000', border: theme === 'dark' ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(0,0,0,0.2)', borderRadius: '8px', cursor: 'pointer', fontSize: '14px', fontWeight: '500', outline: 'none' },
   sortContainer: { display: 'flex', gap: '16px', flexWrap: 'wrap' },
   sortSection: { display: 'flex', gap: '12px', alignItems: 'center', minWidth: 'fit-content' },
   filterLabel: { color: theme === 'dark' ? '#aaa' : '#666', fontSize: '14px', fontWeight: '600' },
