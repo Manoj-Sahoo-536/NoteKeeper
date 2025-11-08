@@ -48,15 +48,15 @@ A modern, full-stack note-taking application built with the MERN stack, featurin
 
 | Login Page | Dashboard |
 |------------|-----------|
-| ![Login](screenshots/login.png) | ![Dashboard](screenshots/dashboard.png) |
+| ![Login](screenshots/Login.png) | ![Dashboard](screenshots/Dashboard.png) |
 
 | Archive | Trash |
 |-------------|-----------------|
-| ![Create](screenshots/archive.png) | ![Search](screenshots/trash.png) |
+| ![Create](screenshots/Archive.png) | ![Search](screenshots/Trash.png) |
 
 | White Mode | Mobile View |
 |-------------|-----------------|
-| ![Create](screenshots/whitemode.png) | ![Search](screenshots/mobileview.png) |
+| ![Create](screenshots/WhiteMode.png) | ![Search](screenshots/MobileView.png) |
 
 </div>
 
