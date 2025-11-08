@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getNotes, createNote, updateNote, deleteNote } from './api';
 import NoteForm from './NoteForm';
 import NoteCard from './NoteCard';
@@ -42,18 +42,16 @@ export default function App() {
     }
   }, []);
 
+  const fetchNotes = useCallback(async (searchTerm = '') => {
+    const { data } = await getNotes(searchTerm, view === 'archived', view === 'trash');
+    setNotes(data);
+  }, [view]);
+
   useEffect(() => {
     if (user) {
       fetchNotes();
     }
-  }, [view, user]);
-
-
-
-  const fetchNotes = async (searchTerm = '') => {
-    const { data } = await getNotes(searchTerm, view === 'archived', view === 'trash');
-    setNotes(data);
-  };
+  }, [view, user, fetchNotes]);
 
   const handleSearch = (e) => {
     const value = e.target.value;
